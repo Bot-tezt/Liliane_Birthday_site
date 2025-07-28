@@ -7,62 +7,78 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
-            --royal-purple: #5D3FD3;
-            --royal-gold: #FFD700;
-            --royal-pink: #E37383;
-            --royal-blue: #4169E1;
-            --deep-purple: #4B0082;
-            --light-gold: #F0E68C;
-            --light-purple: #B399D4;
-            --text-color: #2C2C2C;
-            --light-text: #FFFFFF;
-            --shadow-color: rgba(0, 0, 0, 0.2);
+            /* Light Theme (LinkedIn-inspired) */
+            --primary: #0a66c2;
+            --primary-dark: #004182;
+            --secondary: #ffffff;
+            --background: #f3f2ef;
+            --card-bg: #ffffff;
+            --text-color: #000000;
+            --text-secondary: #666666;
+            --border-color: #d1d1d1;
+            --accent: #e7a33e;
+            --success: #57a300;
+            
+            /* Dark Theme */
+            --dark-primary: #0a66c2;
+            --dark-primary-dark: #004182;
+            --dark-secondary: #1d2226;
+            --dark-background: #0e0e0e;
+            --dark-card-bg: #1d2226;
+            --dark-text-color: #e1e9ee;
+            --dark-text-secondary: #a0a0a0;
+            --dark-border-color: #38434f;
+            --dark-accent: #e7a33e;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         body {
-            background: linear-gradient(135deg, #F9F5FF, #F0EBFF);
+            background-color: var(--background);
             color: var(--text-color);
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Confetti and Balloons */
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background-color: var(--royal-gold);
-            opacity: 0.8;
-            z-index: 1000;
-            animation: fall 5s linear infinite;
+        body.dark-mode {
+            --primary: var(--dark-primary);
+            --primary-dark: var(--dark-primary-dark);
+            --secondary: var(--dark-secondary);
+            --background: var(--dark-background);
+            --card-bg: var(--dark-card-bg);
+            --text-color: var(--dark-text-color);
+            --text-secondary: var(--dark-text-secondary);
+            --border-color: var(--dark-border-color);
+            --accent: var(--dark-accent);
         }
 
-        .balloon {
+        /* Theme Toggle */
+        .theme-toggle {
             position: fixed;
-            width: 30px;
-            height: 40px;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            opacity: 0.7;
-            z-index: 999;
-            animation: float 8s ease-in-out infinite;
-            background: linear-gradient(135deg, var(--royal-purple), var(--royal-pink));
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            border: none;
         }
 
-        @keyframes fall {
-            0% { transform: translateY(-100vh) rotate(0deg); }
-            100% { transform: translateY(100vh) rotate(360deg); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) translateX(0); }
-            50% { transform: translateY(-20vh) translateX(20px); }
+        .theme-toggle i {
+            font-size: 1.2rem;
         }
 
         /* Navbar */
@@ -71,20 +87,20 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(93, 63, 211, 0.9);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+            background-color: var(--secondary);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             z-index: 100;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px 5%;
-            backdrop-filter: blur(5px);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .nav-logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
 
         .nav-logo img {
@@ -92,32 +108,45 @@
             height: 40px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid var(--royal-gold);
+            border: 2px solid var(--primary);
         }
 
         .nav-logo h1 {
-            font-size: 1.2rem;
-            color: var(--light-gold);
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            font-size: 1.3rem;
+            color: var(--text-color);
+            font-weight: 600;
         }
 
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 25px;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: var(--light-gold);
-            font-weight: bold;
-            transition: all 0.3s;
-            padding: 5px 10px;
-            border-radius: 20px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
         }
 
         .nav-links a:hover {
-            color: white;
-            background-color: rgba(255, 215, 0, 0.2);
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         /* Hero Section */
@@ -128,87 +157,68 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 100px 20px 50px;
+            padding: 120px 20px 60px;
             position: relative;
-            overflow: hidden;
+            background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('lil.jpg') center/cover no-repeat;
+        }
+
+        body.dark-mode .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('lil.jpg') center/cover no-repeat;
+        }
+
+        .profile-container {
+            position: relative;
+            margin-bottom: 30px;
         }
 
         .profile-pic {
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             object-fit: cover;
-            border: 5px solid white;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2),
-                        0 0 0 10px var(--royal-purple),
-                        0 0 0 15px var(--royal-gold);
-            margin-bottom: 30px;
-            transition: transform 0.3s;
-        }
-
-        .profile-pic:hover {
-            transform: scale(1.05);
+            border: 5px solid var(--secondary);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
         }
 
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            background: linear-gradient(to right, var(--royal-purple), var(--royal-pink));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .typewriter {
-            overflow: hidden;
-            border-right: 3px solid var(--royal-gold);
-            white-space: nowrap;
-            margin: 0 auto;
-            animation: typing 3.5s steps(30, end), blink-caret 0.75s step-end infinite;
-        }
-
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: var(--royal-gold) }
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            font-weight: 600;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             max-width: 600px;
             margin-bottom: 30px;
-            color: var(--deep-purple);
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
 
-        .birthday-cake {
-            font-size: 3rem;
-            margin-top: 20px;
-            color: var(--royal-pink);
+        .birthday-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
             animation: bounce 2s infinite;
         }
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-15px); }
         }
 
         /* Wishes Section */
         .wishes-section {
             padding: 80px 20px;
-            background: white;
-            position: relative;
+            background-color: var(--background);
         }
 
         .section-title {
             text-align: center;
             margin-bottom: 40px;
-            color: var(--deep-purple);
-            font-size: 2rem;
+            color: var(--text-color);
+            font-size: 1.8rem;
+            font-weight: 600;
             position: relative;
         }
 
@@ -218,9 +228,9 @@
             bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
+            width: 60px;
             height: 3px;
-            background: linear-gradient(to right, var(--royal-purple), var(--royal-pink));
+            background-color: var(--primary);
             border-radius: 3px;
         }
 
@@ -229,15 +239,15 @@
             flex-direction: column;
             max-width: 800px;
             margin: 0 auto;
-            gap: 30px;
+            gap: 25px;
         }
 
         .wish-form {
-            background: linear-gradient(135deg, var(--light-purple), #F3E5F5);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border: 1px solid var(--royal-gold);
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
         }
 
         .form-group {
@@ -247,26 +257,27 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            font-weight: bold;
-            color: var(--deep-purple);
+            font-weight: 500;
+            color: var(--text-color);
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 12px;
-            border: 2px solid var(--light-purple);
-            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
             font-size: 1rem;
-            transition: border-color 0.3s;
-            background-color: rgba(255, 255, 255, 0.8);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background-color: var(--card-bg);
+            color: var(--text-color);
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
-            border-color: var(--royal-pink);
+            border-color: var(--primary);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(227, 115, 131, 0.2);
+            box-shadow: 0 0 0 2px rgba(10, 102, 194, 0.2);
         }
 
         .form-group textarea {
@@ -275,23 +286,22 @@
         }
 
         .submit-btn {
-            background: linear-gradient(to right, var(--royal-purple), var(--royal-pink));
+            background-color: var(--primary);
             color: white;
             border: none;
             padding: 12px 30px;
-            border-radius: 30px;
+            border-radius: 25px;
             font-size: 1rem;
-            font-weight: bold;
+            font-weight: 500;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
             display: block;
             margin: 0 auto;
-            box-shadow: 0 4px 10px rgba(93, 63, 211, 0.3);
         }
 
         .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 20px rgba(93, 63, 211, 0.4);
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
         .wishes-list {
@@ -302,12 +312,13 @@
         }
 
         .wish-card {
-            background: white;
-            border-radius: 10px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             animation: fadeIn 0.5s ease-out;
-            border-left: 4px solid var(--royal-pink);
+            border-left: 3px solid var(--primary);
+            border: 1px solid var(--border-color);
         }
 
         @keyframes fadeIn {
@@ -320,17 +331,19 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .wish-name {
-            font-weight: bold;
-            color: var(--royal-purple);
+            font-weight: 600;
+            color: var(--primary);
             font-size: 1.1rem;
         }
 
         .wish-time {
             font-size: 0.8rem;
-            color: #777;
+            color: var(--text-secondary);
         }
 
         .wish-message {
@@ -340,11 +353,25 @@
 
         /* Footer */
         footer {
-            background: linear-gradient(to right, var(--royal-purple), var(--deep-purple));
-            color: white;
+            background-color: var(--secondary);
+            color: var(--text-color);
             text-align: center;
-            padding: 20px;
+            padding: 25px 20px;
             font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-heart {
+            color: #e74c3c;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         /* Responsive Design */
@@ -358,16 +385,8 @@
                 height: 150px;
             }
 
-            nav {
-                padding: 10px 5%;
-            }
-
-            .nav-logo h1 {
-                font-size: 1rem;
-            }
-
             .nav-links {
-                gap: 10px;
+                gap: 15px;
             }
 
             .wish-form {
@@ -380,22 +399,22 @@
                 font-size: 1.8rem;
             }
 
-            .nav-links {
+            .nav-logo h1 {
                 display: none;
             }
 
-            .typewriter {
-                animation: none;
-                border-right: none;
-                white-space: normal;
+            .nav-links {
+                gap: 10px;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Confetti and Balloons -->
-    <div id="confetti-container"></div>
-    <div id="balloons-container"></div>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
 
     <!-- Navbar -->
     <nav>
@@ -411,10 +430,12 @@
 
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <img src="lil.jpg" alt="Etiezer Liliane M." class="profile-pic">
-        <h1><span class="typewriter">Happy Birthday Etiezer Liliane M.!</span></h1>
+        <div class="profile-container">
+            <img src="lil.jpg" alt="Etiezer Liliane M." class="profile-pic">
+        </div>
+        <h1>Happy Birthday Etiezer Liliane M.!</h1>
         <p>Wishing you a day filled with happiness and a year filled with joy. May all your dreams come true!</p>
-        <div class="birthday-cake">🎂</div>
+        <div class="birthday-icon">🎂</div>
     </section>
 
     <!-- Wishes Section -->
@@ -442,7 +463,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>Made with ❤️ for Etiezer Liliane M. <span id="current-year"></span></p>
+        <p>Made with <span class="footer-heart">❤️</span> for Etiezer Liliane M. <span id="current-year"></span></p>
     </footer>
 
     <!-- Audio Element (hidden) -->
@@ -456,62 +477,30 @@
             // Set current year in footer
             document.getElementById('current-year').textContent = new Date().getFullYear();
 
-            // Typewriter effect
-            const typewriter = document.querySelector('.typewriter');
-            setTimeout(() => {
-                typewriter.style.borderRight = 'none';
-            }, 3500);
-
-            // Create confetti
-            function createConfetti() {
-                const colors = ['#5D3FD3', '#FFD700', '#E37383', '#4169E1', '#4B0082'];
-                const confettiContainer = document.getElementById('confetti-container');
-                
-                for (let i = 0; i < 100; i++) {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + 'vw';
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.width = Math.random() * 10 + 5 + 'px';
-                    confetti.style.height = Math.random() * 10 + 5 + 'px';
-                    confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
-                    confetti.style.animationDelay = Math.random() * 5 + 's';
-                    confettiContainer.appendChild(confetti);
-                }
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('themeToggle');
+            const icon = themeToggle.querySelector('i');
+            
+            // Check for saved theme preference or use preferred color scheme
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.body.classList.add('dark-mode');
+                icon.classList.replace('fa-moon', 'fa-sun');
             }
-
-            // Create balloons
-            function createBalloons() {
-                const colors = ['#5D3FD3', '#FFD700', '#E37383', '#4169E1', '#4B0082'];
-                const balloonsContainer = document.getElementById('balloons-container');
+            
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const isDark = document.body.classList.contains('dark-mode');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
                 
-                for (let i = 0; i < 15; i++) {
-                    const balloon = document.createElement('div');
-                    balloon.className = 'balloon';
-                    balloon.style.left = Math.random() * 100 + 'vw';
-                    balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    balloon.style.width = Math.random() * 30 + 20 + 'px';
-                    balloon.style.height = Math.random() * 40 + 30 + 'px';
-                    balloon.style.animationDuration = Math.random() * 5 + 5 + 's';
-                    balloon.style.animationDelay = Math.random() * 5 + 's';
-                    
-                    // Add balloon string
-                    const string = document.createElement('div');
-                    string.style.position = 'absolute';
-                    string.style.bottom = '-15px';
-                    string.style.left = '50%';
-                    string.style.transform = 'translateX(-50%)';
-                    string.style.width = '2px';
-                    string.style.height = '15px';
-                    string.style.backgroundColor = '#999';
-                    balloon.appendChild(string);
-                    
-                    balloonsContainer.appendChild(balloon);
+                if (isDark) {
+                    icon.classList.replace('fa-moon', 'fa-sun');
+                } else {
+                    icon.classList.replace('fa-sun', 'fa-moon');
                 }
-            }
-
-            createConfetti();
-            createBalloons();
+            });
 
             // Birthday song with fade-in
             const birthdaySong = document.getElementById('birthday-song');
@@ -570,12 +559,11 @@
                     // Add to the top of the list
                     wishesList.insertBefore(wishCard, wishesList.firstChild);
                     
-                    // Send to WhatsApp (this is a simplified version)
-                    // In a real implementation, you would use the WhatsApp API or a backend service
-                    const whatsappMessage = `New birthday wish for Etiezer Liliane M.!\n\nFrom: ${name}\nMessage: ${message}`;
-                    const whatsappUrl = `https://wa.me/${237677221662}?text=${encodeURIComponent(whatsappMessage)}`;
+                    // Send to WhatsApp
+                    const whatsappMessage = `New birthday wish for Etiezer Liliane M.!%0A%0AFrom: ${name}%0AMessage: ${message}`;
+                    const whatsappUrl = `https://wa.me/237677221662?text=${whatsappMessage}`;
                     
-                    // Open in a new tab (for demo purposes)
+                    // Open in a new tab
                     window.open(whatsappUrl, '_blank');
                     
                     // Reset form
@@ -593,7 +581,7 @@
                     
                     if (targetElement) {
                         window.scrollTo({
-                            top: targetElement.offsetTop - 70,
+                            top: targetElement.offsetTop - 80,
                             behavior: 'smooth'
                         });
                     }
